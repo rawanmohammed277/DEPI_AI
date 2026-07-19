@@ -10,7 +10,7 @@ This program focuses on translating raw data into scalable data science models, 
 
 ---
 
-## 🛠️ Curriculum & Core Modules
+## 🛠️ Curriculum & Core Module
 
 ### 1. Foundations & Programming
 *   **Prompt Engineering:** Mastering the art of guiding Generative AI and LLMs.
