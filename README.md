@@ -38,8 +38,3 @@ This program focuses on translating raw data into scalable data science models, 
 *   **Cloud Platform:** Microsoft Azure (Azure ML Studio, Cognitive Services)
 *   **MLOps:** MLflow
 
----
-
-## 🎯 Certifications Aligned with this Track
-*   Microsoft Certified: Azure AI Fundamentals
-*   Microsoft Certified: Azure AI Engineer Associate (AI-102)
