@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>The Boston Housing Price Ledger</h1>
+<p class="lede">
+  A decision-tree regressor trained on {{ stats.n_points }} Boston-area neighborhoods,
+  reading three signals per home — room count, neighborhood poverty rate, and the
+  local student–teacher ratio — to estimate a fair selling price.
+</p>
+
+<ul class="stat-row">
+  <li><span class="stat-label">Lowest price</span><span class="stat-value">${{ "{:,.0f}".format(stats.min_price) }}</span></li>
+  <li><span class="stat-label">Highest price</span><span class="stat-value">${{ "{:,.0f}".format(stats.max_price) }}</span></li>
+  <li><span class="stat-label">Mean</span><span class="stat-value">${{ "{:,.0f}".format(stats.mean_price) }}</span></li>
+  <li><span class="stat-label">Median</span><span class="stat-value">${{ "{:,.0f}".format(stats.median_price) }}</span></li>
+  <li><span class="stat-label">Std. deviation</span><span class="stat-value">${{ "{:,.0f}".format(stats.std_price) }}</span></li>
+</ul>
+
+<hr class="rule">
+
+<h2>Estimate a price</h2>
+<div class="panel">
+  <p style="margin:0; color:var(--muted); font-size:0.92rem;">
+    Enter a neighborhood's numbers and the trained model (max_depth = {{ optimal_depth }},
+    test R² = {{ "%.3f"|format(test_r2) }}) will predict a selling price.
+  </p>
+  <form class="predict-form" method="POST" action="{{ url_for('predict') }}">
+    <div class="field">
+      <label for="rm">RM — rooms per home</label>
+      <input type="number" step="0.01" min="1" max="12" name="rm" id="rm" value="6.5" required>
+      <span class="hint">Typically 3 – 9</span>
+    </div>
+    <div class="field">
+      <label for="lstat">LSTAT — % lower-class</label>
+      <input type="number" step="0.1" min="0" max="40" name="lstat" id="lstat" value="12" required>
+      <span class="hint">Typically 2 – 35</span>
+    </div>
+    <div class="field">
+      <label for="ptratio">PTRATIO — students per teacher</label>
+      <input type="number" step="0.1" min="10" max="25" name="ptratio" id="ptratio" value="18" required>
+      <span class="hint">Typically 13 – 22</span>
+    </div>
+    <button type="submit">Predict selling price</button>
+  </form>
+</div>
+
+<hr class="rule">
+
+<h2>Three sample clients</h2>
+<p style="margin-top:-0.4rem; color:var(--muted); font-size:0.92rem;">
+  The predictions the notebook asks for, run through the trained model.
+</p>
+<table>
+  <thead>
+    <tr><th>Client</th><th>RM</th><th>LSTAT</th><th>PTRATIO</th><th>Predicted price</th></tr>
+  </thead>
+  <tbody>
+    {% for c in clients %}
+    <tr>
+      <td>{{ c.name }}</td>
+      <td>{{ c.RM }}</td>
+      <td>{{ c.LSTAT }}%</td>
+      <td>{{ c.PTRATIO }}:1</td>
+      <td class="price">${{ "{:,.0f}".format(c.price) }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<hr class="rule">
+
+<h2>How the model was tuned</h2>
+<p style="color:var(--muted); font-size:0.92rem; max-width:62ch;">
+  A grid search over <code>max_depth</code> (1–10), cross-validated with a 10-fold
+  <code>ShuffleSplit</code>, picked <strong>max_depth = {{ optimal_depth }}</strong> as the
+  best generalizing tree. Below: how performance grows with more training data at a few
+  depths, and how training vs. validation score trade off as the tree is allowed to grow
+  deeper.
+</p>
+<div class="plots">
+  <figure>
+    <img src="{{ url_for('plot_learning') }}" alt="Learning curves at max_depth 1, 3, 6, 10">
+    <figcaption>Learning curves — training score (red) vs. validation score (green) as training-set size grows.</figcaption>
+  </figure>
+  <figure>
+    <img src="{{ url_for('plot_complexity') }}" alt="Model complexity curve across max_depth 1-10">
+    <figcaption>Complexity curve — training vs. validation score as max_depth increases from 1 to 10.</figcaption>
+  </figure>
+</div>
+
+<footer>
+  Data: 489 Boston-area neighborhoods (RM, LSTAT, PTRATIO → MEDV). Model: scikit-learn
+  DecisionTreeRegressor, selected by GridSearchCV on R². Built for the Model Evaluation
+  &amp; Validation project.
+</footer>
+
+{% endblock %}

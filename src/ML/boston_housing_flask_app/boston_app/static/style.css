@@ -1,0 +1,203 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+
+:root {
+  --bg: #1E2B2F;
+  --panel: #263940;
+  --panel-2: #2C424A;
+  --ink: #ECE6D6;
+  --muted: #9FB2B5;
+  --brick: #C1683F;
+  --brick-soft: #DE8B5F;
+  --line: #3E555B;
+  --good: #86AE96;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+
+body {
+  padding: 3.5rem 1.5rem 6rem;
+}
+
+.wrap {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+h1, h2, .display {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+h1 {
+  font-size: 2.5rem;
+  line-height: 1.15;
+  margin: 0 0 0.6rem;
+}
+
+h2 {
+  font-size: 1.3rem;
+  margin: 0 0 0.9rem;
+  color: var(--brick-soft);
+}
+
+p { line-height: 1.6; color: var(--ink); }
+p.lede { color: var(--muted); font-size: 1.05rem; max-width: 62ch; }
+
+.rule {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin: 2.8rem 0;
+}
+
+.stat-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.6rem 2.2rem;
+  margin: 1.6rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stat-row li { min-width: 120px; }
+
+.stat-label {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-bottom: 0.2rem;
+}
+
+.stat-value {
+  font-family: 'Fraunces', serif;
+  font-size: 1.35rem;
+  color: var(--ink);
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 1.8rem 2rem;
+}
+
+form.predict-form {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+  margin-top: 1.4rem;
+}
+
+.field { display: flex; flex-direction: column; gap: 0.4rem; }
+
+.field label {
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.field .hint { font-size: 0.74rem; color: var(--muted); opacity: 0.8; }
+
+.field input {
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  color: var(--ink);
+  padding: 0.6rem 0.7rem;
+  font-size: 1rem;
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
+.field input:focus {
+  outline: 2px solid var(--brick-soft);
+  outline-offset: 1px;
+}
+
+.predict-form button {
+  grid-column: 1 / -1;
+  background: var(--brick);
+  color: #1B1410;
+  border: none;
+  border-radius: 4px;
+  padding: 0.8rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: 'IBM Plex Sans', sans-serif;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.predict-form button:hover { background: var(--brick-soft); }
+.predict-form button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.2rem;
+}
+
+th, td {
+  text-align: left;
+  padding: 0.6rem 0.4rem;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.95rem;
+}
+
+th { color: var(--muted); font-weight: 500; font-size: 0.8rem; }
+td.price { color: var(--good); font-family: 'Fraunces', serif; }
+
+.result-price {
+  font-family: 'Fraunces', serif;
+  font-size: 3rem;
+  color: var(--good);
+  margin: 0.4rem 0 0.2rem;
+}
+
+.trials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+}
+
+.trials span {
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 0.25rem 0.55rem;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+a.back {
+  color: var(--brick-soft);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+a.back:hover { text-decoration: underline; }
+
+.plots { display: flex; flex-direction: column; gap: 2rem; margin-top: 1.4rem; }
+.plots img { width: 100%; border-radius: 6px; border: 1px solid var(--line); background: #fff; }
+.plots figcaption { color: var(--muted); font-size: 0.85rem; margin-top: 0.5rem; }
+figure { margin: 0; }
+
+footer {
+  margin-top: 3rem;
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 620px) {
+  form.predict-form { grid-template-columns: 1fr; }
+  h1 { font-size: 2rem; }
+  .result-price { font-size: 2.2rem; }
+}

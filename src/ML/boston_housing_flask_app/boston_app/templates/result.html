@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+
+<a class="back" href="{{ url_for('index') }}">&larr; Back to the ledger</a>
+
+<h2 style="margin-top:1.6rem;">Predicted selling price</h2>
+<p class="result-price">${{ "{:,.2f}".format(price) }}</p>
+<p style="color:var(--muted); font-size:0.92rem;">
+  For a home with RM = {{ rm }} rooms, LSTAT = {{ lstat }}% lower-class, PTRATIO = {{ ptratio }}:1.
+</p>
+
+<hr class="rule">
+
+<h2>How stable is this estimate?</h2>
+<p style="color:var(--muted); font-size:0.92rem; max-width:62ch;">
+  The same neighborhood was priced 10 times, each time training on a different random
+  80/20 shuffle of the data. This is what the estimate looks like across shuffles —
+  a wide spread means the model isn't very confident here.
+</p>
+<div class="panel">
+  <div class="trials">
+    {% for t in trials %}
+    <span>Trial {{ loop.index }}: ${{ "{:,.0f}".format(t) }}</span>
+    {% endfor %}
+  </div>
+  <p style="margin-bottom:0; margin-top:1rem; font-size:0.9rem;">
+    Range across trials: <strong style="color:var(--good);">${{ "{:,.2f}".format(price_range) }}</strong>
+  </p>
+</div>
+
+<footer>
+  For context, dataset prices range from ${{ "{:,.0f}".format(stats.min_price) }} to
+  ${{ "{:,.0f}".format(stats.max_price) }}, with a median of ${{ "{:,.0f}".format(stats.median_price) }}.
+</footer>
+
+{% endblock %}
